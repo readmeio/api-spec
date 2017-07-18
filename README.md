@@ -1,9 +1,9 @@
-This is the specification that all `api` SDKs will adhere to. The (Python library)[https://github.com/readmeio/api-python] is the canonical example of the spec.
+This is the specification that all `api` SDKs will adhere to. The [Python library](https://github.com/readmeio/api-python) is the canonical example of the spec. (The Node version is better, but also includes the command line tool)
 
 Existing implementations:
 
-  * (Node)[https://github.com/readmeio/api]
-  * (Python)[https://github.com/readmeio/api-python]
+  * [Node](https://github.com/readmeio/api)
+  * [Python](https://github.com/readmeio/api-python)
   
 # Code Examples
 
