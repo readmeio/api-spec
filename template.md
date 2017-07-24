@@ -27,3 +27,7 @@ How do you run tests?
 # Deploying to the package manager
 
 How is this deployed to a package manager?
+
+# Credits
+
+  * Credit
