@@ -66,6 +66,10 @@ If you get the following headers back, do the following:
 | ------------- | ------------- |
 | X-Build-Deprecated  | If `true` (likely a string, depends on the language), print out to the console in yellow "{service} v{version} is deprecated! Run `api update {service}` to use the latest version" (**TODO:** Should probably be a URL?) |
 
+# Other things
+
+Each README.md file for the repo should follow this template: https://github.com/readmeio/api-spec/blob/master/template.md
+
 # TODO:
 
 Python needs:
