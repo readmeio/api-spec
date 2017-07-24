@@ -1,3 +1,5 @@
+This is a language-specific API client for [ReadMe Build](https://readme.build). It's based on the [api spec](https://github.com/readmeio/api-spec).
+
 # Installation
 
 Here's how to install the package...
