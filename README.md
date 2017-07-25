@@ -47,7 +47,7 @@ The `config` function sets up the API with the config key. You should be able to
 
 We have the concept of "services", which contain "actions". A service would be analogous to an API, and a action would be analogous to an endpoint. For example, the "math" service might have actions like "multiply" and "add".
 
-The variable returned by `config` should (language permitting) be a function, which accepts the service as the only parameter. The service is in the format `organization/service@version`, with only service being required. `organization` will be required for private services, and `version` will primarily be used in development mode. If there's an `organization`, prepend `@` to it before using it in the URL (see examples below).
+The variable returned by `config` should (language permitting) be a function, which accepts the service as the only parameter. The service is in the format `organization/service@version_override`, with only service being required. `organization` will be required for private services, and `version_override` will primarily be used in development mode. If there's an `organization`, prepend `@` to it before using it in the URL (see examples below).
 
 So, something like this: `api('twitter/math@v2.0').do('multiply')`. These values would map to:
 
@@ -55,7 +55,7 @@ So, something like this: `api('twitter/math@v2.0').do('multiply')`. These values
   * `@twitter/math` -> https://api.readme.build/v1/run/@twitter/math/multiply (organization / private service)
   * `@twitter/math@2.0` -> https://api.readme.build/v1/run/@twitter/math/multiply + Header `X-Build-Version-Override: 2.0` (organization / private service)
   
-*(Confused? Let greg at readme.io know, and he can try to explain it a bit better!)*
+[Here's an example in Python of how it works](https://github.com/readmeio/api-python/commit/3718a0f#diff-e0978ea022e5e946d30dfa3911881b5eR32).
 
 This should return an object, with the function `run`. This accepts two parameters, an action name and a hash of data to pass along (whatever the language equivilant of a JSON blob would be). (**NOTE:** Can it ever accept just one variable? What about if only one non-object variable is passed in, it goes to the first param in the list?) Some languages could have a third parameter that's a callback (like JS).
 
@@ -65,8 +65,19 @@ What happens next is up to the language. There's three things that need to be re
 
 The request that is made when `run` is called is a simple POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The body should be the JSON blob of data passed in, and the API key should be passed as basic auth, with the username being the API key and the password being blank. (So, `headers['Authorization'] = 'Basic ' + base64(key + ':');`, although most request libraries simplify this.)
 
-If it's successful, you'll get a 200 error and the body will be the exact content to return. If not, you'll get an error status code (**TODO:** What is this code?). The body will contain a JSON blob with `{"error": "message to print out", "code": "ErrorName"}`. Print out the `.error` value in red to the console.
+The following headers are sent:
 
+| Header  | Action |
+| ------------- | ------------- |
+| Authorization  | The basic auth described above |
+| X-Build-Version-Override  | (Optional) If the user passes in a version override, send it this way |
+| X-Build-Meta-Language | The language (lowercase) and language version, in the format of `lang@version` (aka `node@6.7.0`) |
+| X-Build-Meta-SDK | The SDK (this thing!) version, in the format of `api@version` (aka `api@0.0.2`) 
+| X-Build-Meta-OS | The Operating System, in the format of `os@version` (aka `darwin@16.6.0`) |
+
+Here's an [example of the metadata](https://github.com/readmeio/api-python/commit/9ac56c9).
+
+If it's successful, you'll get a 200 error and the body will be the exact content to return. If not, you'll get an error status code (**TODO:** What is this code?). The body will contain a JSON blob with `{"error": "message to print out", "code": "ErrorName"}`. Print out the `.error` value in red to the console.
 
 If you get the following headers back, do the following:
 
