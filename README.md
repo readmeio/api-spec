@@ -66,7 +66,7 @@ What happens next is up to the language. There's three things that need to be re
 
 The request that is made when `run` is called is a simple POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The body should be the JSON blob of data passed in, and the API key should be passed as basic auth, with the username being the API key and the password being blank. (So, `headers['Authorization'] = 'Basic ' + base64(key + ':');`, although most request libraries simplify this.)
 
-![](https://cl.ly/2X381c1o0H21/Image%202017-07-24%20at%2010.43.09%20PM.png)
+![](https://cl.ly/1g2f2i1H2c0m/Image%202017-07-24%20at%2010.44.12%20PM.png)
 
 The following headers are sent:
 
