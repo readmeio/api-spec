@@ -47,7 +47,15 @@ The `config` function sets up the API with the config key. You should be able to
 
 We have the concept of "services", which contain "actions". A service would be analogous to an API, and a action would be analogous to an endpoint. For example, the "math" service might have actions like "multiply" and "add".
 
-The variable returned by `config` should (language permitting) be a function, which accepts the service as the only parameter. The service is in the format `organization/service@version`, with only service being required. `organization` will be required for private services, ~~and `version` will primarily be used in development mode~~. (**NOTE:** The API doesn't accept @version yet!)
+The variable returned by `config` should (language permitting) be a function, which accepts the service as the only parameter. The service is in the format `organization/service@version`, with only service being required. `organization` will be required for private services, and `version` will primarily be used in development mode. If there's an `organization`, prepend `@` to it before using it in the URL (see examples below).
+
+So, something like this: `api('twitter/math@v2.0').do('multiply')`. These values would map to:
+
+  * `math` -> https://api.readme.build/v1/run/math/multiply
+  * `@twitter/math` -> https://api.readme.build/v1/run/@twitter/math/multiply (organization / private service)
+  * `@twitter/math@2.0` -> https://api.readme.build/v1/run/@twitter/math/multiply + Header `X-Build-Version-Override: 2.0` (organization / private service)
+  
+*(Confused? Let greg at readme.io know, and he can try to explain it a bit better!)*
 
 This should return an object, with the function `run`. This accepts two parameters, an action name and a hash of data to pass along (whatever the language equivilant of a JSON blob would be). (**NOTE:** Can it ever accept just one variable? What about if only one non-object variable is passed in, it goes to the first param in the list?) Some languages could have a third parameter that's a callback (like JS).
 
