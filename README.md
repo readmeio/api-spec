@@ -50,7 +50,7 @@ We have the concept of "services", which contain "actions". A service would be a
 
 The variable returned by `config` should (language permitting) be a function, which accepts the service as the only parameter. The service is in the format `organization/service@version_override`, with only service being required. `organization` will be required for private services, and `version_override` will primarily be used in development mode. If there's an `organization`, prepend `@` to it before using it in the URL (see examples below).
 
-So, something like this: `api('twitter/math@v2.0').do('multiply')`. These values would map to:
+So, something like this: `api('twitter/math@v2.0').run('multiply')`. These values would map to:
 
   * `math` -> https://api.readme.build/v1/run/math/multiply
   * `@twitter/math` -> https://api.readme.build/v1/run/@twitter/math/multiply (organization / private service)
