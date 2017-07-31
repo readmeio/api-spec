@@ -4,7 +4,7 @@ Existing implementations:
 
   * [Node](https://github.com/readmeio/api)
   * [Python](https://github.com/readmeio/api-python)
-  * *[Ruby](https://github.com/readmeio/api-ruby) (Soon!)*
+  * [Ruby](https://github.com/readmeio/api-ruby)
   * *[PHP](https://github.com/readmeio/api-php) (Soon!)*
   
 # Code Examples
