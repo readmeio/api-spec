@@ -32,7 +32,7 @@ else:
 **Node:**
 
 ```node
-var api = require('api').config('API_KEY');
+let api = require('api').config('API_KEY');
 
 api('math').run('multiply', {
     'x': 1,
@@ -40,7 +40,32 @@ api('math').run('multiply', {
 }, function(err, res) {
   if(err) return console.log(err);
   console.log(res);
-})
+});
+```
+# Additional SDK Funcationality
+
+##  Files
+
+Build services support invoking with files as data. Invoking with a stream, buffer, or parameter to `api.file` (detailed below) should be supported. Responses containing buffers might also need to be parsed to the appropriate data type for the specific language.
+
+### api.file
+
+`api.file` should be able to take a local path to a file or a url, and convert it to a format that can be sent to build (stream or buffer).
+
+Example (Node):
+
+```node
+let api = require('api').config('API_KEY');
+
+api('file-test').run('scale', { image: api.file('https://files.readme.io/88d46f2-small-logo.png'), width: 1000 }, (err, response) => {
+  if (err) return console.log(err);
+  fs.writeFileSync('./image-2.JPG', response.file);
+});
+
+api('file-test').run('scale', { image: api.file('./image.jpg'), width: 1000 }, (err, response) => {
+  if (err) return console.log(err);
+  fs.writeFileSync('./image-2.JPG', response.file);
+});
 ```
 
 # What's happening
@@ -65,9 +90,19 @@ What happens next is up to the language. There's three things that need to be re
 
 # How the request works
 
-The request that is made when `run` is called is a simple POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The body should be the JSON blob of data passed in, and the API key should be passed as basic auth, with the username being the API key and the password being blank. (So, `headers['Authorization'] = 'Basic ' + base64(key + ':');`, although most request libraries simplify this.)
+The request that is made when `run` is called is a simple POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The files being sent to the service should be sent as seperate form-data items. The rest of the json data should be stringified in the `data` form item. This guarantees that everything retains its correct type, sinceeverything in form-data is a string. 	
 
-![](https://cl.ly/1g2f2i1H2c0m/Image%202017-07-24%20at%2010.44.12%20PM.png)
+The API key should be passed as basic auth, with the username being the API key and the password being blank. (So, `headers['Authorization'] = 'Basic ' + base64(key + ':');`, although most request libraries simplify this.)
+
+## Primitive Only Example
+
+![](https://files.readme.io/c1db534-Screenshot_2018-01-08_14.22.51.png)
+
+## File Example:
+
+![](https://files.readme.io/13e0285-Screenshot_2018-01-08_14.28.59.png)
+
+## Headers
 
 The following headers are sent:
 
@@ -86,7 +121,7 @@ If it's successful, you'll get a 200 error and the body will be the exact conten
 If you get the following headers back, do the following:
 
 | Header  | Action |
-| ------------- | ------------- |
+| ------- | ------ |
 | X-Build-Deprecated  | If `true` (likely a string, depends on the language), print out to the console in yellow "{service} v{version} is deprecated! Run `api update {service}` to use the latest version" (**TODO:** Should probably be a URL?) |
 
 # Other things
@@ -105,3 +140,15 @@ Everywhere:
   * Will there be a hard deprecation header? or just an error?
   * How do we deal with non-JSON responses (like just an integer)
   * Do we handle team names yet? How so? Versions?
+
+# SDK Supported Features
+
+| SDK        | [Invoke](https://docs.readme.build/docs/getting-started-2) | Private Services | [Files](https://docs.readme.build/v1.0/docs/sending-files)   | Outputs |
+| ---------- | :----: | :--------------: | :-----: | :-----: |
+| [**Node**](https://github.com/readmeio/api) |✔|✔|✔|✔|
+| [**Python**](https://github.com/readmeio/api-python) |✔|✔|✕|✕|
+| [**Ruby**](https://github.com/readmeio/api-ruby) |✔|✔|✕|✕|
+| **Slack**  |✔|✔|✕|✕|
+| **Cron**   |✔|✔|✕|✕|
+
+
