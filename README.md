@@ -18,27 +18,27 @@ import api
 api = api.config('API_KEY')
 
 result, meta = api('math').run('multiply', {
-    'x': 1,
-    'y': 2
+  'x': 1,
+  'y': 2
 })
 
 if meta.error:
-    print 'oh no'
+  print 'oh no'
 else:
-    print result
+  print result
 ```
 
 
 **Node:**
 
 ```node
-let api = require('api').config('API_KEY');
+const api = require('api').config('API_KEY');
 
 api('math').run('multiply', {
-    'x': 1,
-    'y': 2,
+  'x': 1,
+  'y': 2,
 }, function(err, res) {
-  if(err) return console.log(err);
+  if (err) return console.log(err);
   console.log(res);
 });
 ```
@@ -55,7 +55,7 @@ Build services support invoking with files as data. Invoking with a stream, buff
 Example (Node):
 
 ```node
-let api = require('api').config('API_KEY');
+const api = require('api').config('API_KEY');
 
 api('file-test').run('scale', { image: api.file('https://files.readme.io/88d46f2-small-logo.png'), width: 1000 }, (err, response) => {
   if (err) return console.log(err);
@@ -90,7 +90,7 @@ What happens next is up to the language. There's three things that need to be re
 
 # How the request works
 
-The request that is made when `run` is called is a simple POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The files being sent to the service should be sent as seperate form-data items. The rest of the json data should be stringified in the `data` form item. This guarantees that everything retains its correct type, sinceeverything in form-data is a string. 	
+The request that is made when `run` is called is a POST to the endpoint `https://api.readme.build/v1/run/{service}/{action}`. The files being sent to the service should be sent as seperate form-data items. The rest of the json data should be stringified in the `data` form item. This guarantees that everything retains its correct type, since everything in form-data is a string. 	
 
 The API key should be passed as basic auth, with the username being the API key and the password being blank. (So, `headers['Authorization'] = 'Basic ' + base64(key + ':');`, although most request libraries simplify this.)
 
@@ -143,12 +143,12 @@ Everywhere:
 
 # SDK Supported Features
 
-| SDK        | [Invoke](https://docs.readme.build/docs/getting-started-2) | Private Services | [Files](https://docs.readme.build/v1.0/docs/sending-files)   | Outputs |
+| SDK | [Invoke](https://docs.readme.build/docs/getting-started-2) | [Private Services](https://docs.readme.build/v1.0/docs/getting-started-2#section-calling-private-services) | [Files](https://docs.readme.build/v1.0/docs/sending-files) | [Outputs](https://docs.readme.build/v1.0/docs/outputs) |
 | ---------- | :----: | :--------------: | :-----: | :-----: |
 | [**Node**](https://github.com/readmeio/api) |✔|✔|✔|✔|
 | [**Python**](https://github.com/readmeio/api-python) |✔|✔|✕|✕|
 | [**Ruby**](https://github.com/readmeio/api-ruby) |✔|✔|✕|✕|
-| **Slack**  |✔|✔|✕|✕|
-| **Cron**   |✔|✔|✕|✕|
+| [**Slack**](https://docs.readme.build/v1.0/docs/using-slack-to-call-services) |✔|✔|✕|✕|
+| [**Cron**](https://docs.readme.build/v1.0/docs/running-services-with-cron) |✔|✔|✕|✕|
 
 
