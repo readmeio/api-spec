@@ -96,11 +96,11 @@ The API key should be passed as basic auth, with the username being the API key 
 
 ## Primitive Only Example
 
-![](https://files.readme.io/c1db534-Screenshot_2018-01-08_14.22.51.png)
+![](./assets/primitive-example.png)
 
 ## File Example:
 
-![](https://files.readme.io/13e0285-Screenshot_2018-01-08_14.28.59.png)
+![](./assets/file-example.png)
 
 ## Headers
 
